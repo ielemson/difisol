@@ -18,20 +18,11 @@
                 <div class="col-xl-6">
                     <div class="about-three__left">
                         <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6">
+                           
+                            <div class="col-xl-12 col-lg-12 col-md-12">
                                 <div class="about-three__left-single">
                                     <div class="about-three__left-img">
-                                        <img src="{{asset('eup/images/resources/about-three-img-1.jpg')}}" alt="">
-                                    </div>
-                                    <div class="about-three__left-img about-three__left-img--2">
-                                        <img src="{{asset('eup/images/resources/about-three-img-2.jpg')}}" alt="">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6">
-                                <div class="about-three__left-single">
-                                    <div class="about-three__left-img">
-                                        <img src="{{asset('eup/images/resources/about-three-img-3.jpg')}}" alt="">
+                                        <img src="{{asset('eup/images/resources/about-eu.jpeg')}}" alt="" style="width: 100%">
                                     </div>
                                 </div>
                             </div>
@@ -66,16 +57,16 @@
                 <div class="col-xl-12">
                     <div class="cta-one__inner">
                         <div class="cta-one__left">
-                            <div class="cta-one__icon">
+                            {{-- <div class="cta-one__icon">
                                 <span class="icon-agriculture-2"></span>
-                            </div>
-                            <h3 class="cta-one__title">We’re Digital Financial Solution for Farmes in Rural Areas
+                            </div> --}}
+                            <h3 class="cta-one__title" style="font-size:2rem">Digital Financial Solution for Farmers in Rural Areas
                             </h3>
                         </div>
-                        <div class="cta-one__right">
+                        {{-- <div class="cta-one__right">
                             <a href="about.html" class="thm-btn cta-one__btn">Discover More <i
                                     class="icon-right-arrow"></i> </a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

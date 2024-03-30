@@ -14,7 +14,7 @@
 
 
     <div class="page-wrapper">
-        @include('frontend.includes.header')
+        @include('frontend.includes.funnab_header')
 
         <div class="stricky-header stricked-menu main-menu main-menu-three">
             <div class="sticky-header__content"></div><!-- /.sticky-header__content -->

@@ -12,7 +12,7 @@
                                 <i class="icon-email"></i>
                             </div>
                             <div class="text">
-                                <p><a href="#">{{$setting->email}}</a></p>
+                                <p><a href="mailto:info@eup-uaes.ng">{{__('info@eup-uaes.ng')}}</a></p>
                             </div>
                         </li>
                         <li>
@@ -57,18 +57,22 @@
                                              </ul>
                                          </li>
                                             @endif
+                                            <li>
+                                                <a href="{{ route("front.activities") }}">Activities</a>
+                                            </li>
                                             <li class="">
                                                 <a href="{{route('all.news')}}">News</a>
                                                 
                                             </li>
                                             <li class="">
-                                                <a href="#">Gallery</a>
+                                                <a href="{{route('front.gallery')}}">Gallery</a>
                                                 
                                             </li>
                                             <li class="">
-                                                <a href="#">Media</a>
+                                                <a href="{{ route('front.media') }}">Media</a>
                                                 
                                             </li>
+                                            
                                             <li class="">
                                                 <a href="{{route('contact.us')}}">Contact</a>
                                                
@@ -77,21 +81,21 @@
                                         </ul>
                                     </div>
                                 </div>
-                                {{-- <div class="main-menu__right">
+                                <div class="main-menu__right">
                                     <div class="main-menu__search-cart-btn-box">
                                         <div class="main-menu__search-box">
                                             <a href="#"
                                                 class="main-menu__search search-toggler icon-magnifying-glass"></a>
                                         </div>
                                         <div class="main-menu__cart-box">
-                                            <a href="cart.html" class="main-menu__cart icon-shopping-cart"></a>
+                                            <a href="{{route('contact.us')}}" class="main-menu__cart icon-maps-and-flags"></a>
                                         </div>
                                         <div class="main-menu__btn-box">
-                                            <a href="contact.html" class="thm-btn main-menu__btn">Get Free Quote
-                                                <i class="icon-right-arrow"></i> </a>
+                                            <a href="mailto:info@eup-uaes.ng" class="thm-btn main-menu__btn">info@eup-uaes.ng
+                                                <i class="icon-email"></i> </a>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
                     </nav>
@@ -119,7 +123,7 @@
 
 <!--Page Header Start-->
 <section class="page-header">
-    <div class="page-header-bg" style="background-image: url(eup/images/backgrounds/page-header-bg.jpg)">
+    <div class="page-header-bg" style="background-image: url({{asset('eup/images/resources/eu-uaes-banner.jpg')}})">
     </div>
     <div class="container">
         <div class="page-header__inner">

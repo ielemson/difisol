@@ -13,9 +13,9 @@
     <meta name="keywords" content="{{$setting->meta_title}}">
     <link rel="canonical" href="{{url('/')}}">
     <!-- favicons Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/settings/{{$setting->website_logo}}" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/settings/{{$setting->website_logo}}" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/settings/{{$setting->website_logo}}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset("assets/images/settings/$setting->website_logo") }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset("assets/images/settings/$setting->website_logo") }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset("assets/images/settings/$setting->website_logo") }}" />
     {{-- <link rel="manifest" href="assets/images/favicons/site.webmanifest" /> --}}
     <meta name="description" content="{{$setting->description}}" />
 
@@ -49,14 +49,27 @@
     <link rel="stylesheet" href="{{asset('eup/vendors/vegas/vegas.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('eup/vendors/jquery-ui/jquery-ui.css')}}" />
     <link rel="stylesheet" href="{{asset('eup/vendors/timepicker/timePicker.css')}}" />
+    <link rel="stylesheet" href="{{asset('eup/lightbox/css/lightbox.min.css')}}" />
 
     <!-- template styles -->
     <link rel="stylesheet" href="{{asset('eup/css/agrion.css')}}" />
     <link rel="stylesheet" href="{{asset('eup/css/agrion-responsive.css')}}" />
+    <style>
+        iframe {
+  aspect-ratio: 16/9;
+  width: 100%;
+}
+    </style>
 </head>
 
 <body class="custom-cursor">
-    
+     <div class="custom-cursor__cursor"></div>
+<div class="custom-cursor__cursor-two"></div>
+
+    <div class="preloader">
+<div class="preloader__image"></div>
+</div>
+    <!-- /.preloader -->
         @yield('content')
 
     <script src="{{asset('eup/vendors/jquery/jquery-3.6.0.min.js')}}"></script>
@@ -83,13 +96,22 @@
     <script src="{{asset('eup/vendors/timepicker/timePicker.js')}}"></script>
     <script src="{{asset('eup/vendors/circleType/jquery.circleType.js')}}"></script>
     <script src="{{asset('eup/vendors/circleType/jquery.lettering.min.js')}}"></script>
-
-
-
+    <script src="{{asset('eup/lightbox/js/lightbox.min.js')}}"></script>
 
     <!-- template js -->
     <script src="{{asset('eup/js/agrion.js')}}"></script>
-
+    
+    <script type="text/javascript">
+        $('#reload').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: 'reload-captcha',
+                success: function (data) {
+                    $(".captcha span").html(data.captcha);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

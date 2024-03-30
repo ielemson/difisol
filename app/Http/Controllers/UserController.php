@@ -8,6 +8,7 @@ use Auth;
 use DataTables;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
@@ -147,7 +148,7 @@ class UserController extends Controller
                 $user_role = $user->roles->first();
                 $roles = Role::pluck('name', 'id');
 
-                return view('user-edit', compact('user', 'user_role', 'roles'));
+                return view('admin.main.user-edit', compact('user', 'user_role', 'roles'));
             }
 
             return redirect('404');
@@ -168,12 +169,9 @@ class UserController extends Controller
     {
         // update user info
         $validator = Validator::make($request->all(), [
-            'id' => 'required',
             'name' => 'required | string ',
             'email' => 'required | email',
             'role' => 'required',
-            'portfolio' => 'nullable',
-            'details' => 'nullable',
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -195,8 +193,8 @@ class UserController extends Controller
 
                 if($request->hasFile('image')) {
                     $imageName = time().'.'.$request->image->extension();  
-                    $request->image->move(public_path('assets/images/members'), $imageName);
-                    Storage::delete("assets/images/members/$user->image");
+                    $request->image->move(public_path('assets/images/users'), $imageName);
+                    Storage::delete("assets/images/users/$user->image");
                     
                     $payload = [
                         'name' => $request->name,
@@ -224,7 +222,7 @@ class UserController extends Controller
                     $payload['password'] = $request->password;
                 }
 
-                $update = $user->update($payload);
+                $user->update($payload);
                 // sync user role
                 $user->syncRoles($request->role);
 
@@ -240,9 +238,75 @@ class UserController extends Controller
     }
 
     function profile_update(Request $request){
-         // update user info
 
-         dd($request->all());
+    // update user info
+        $validator = Validator::make($request->all(), [
+            'name' => 'required | string ',
+            'email' => 'required | email',
+            'phone' => 'nullable',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // check validation for password match
+        if (isset($request->password)) {
+            $validator = Validator::make($request->all(), [
+                'password' => 'required | confirmed',
+            ]);
+        }
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->with('error', $validator->messages()->first());
+        }
+
+        try {
+
+
+            if ($user = User::find(auth()->user()->id)) {
+
+                if($request->hasFile('image')) {
+                    $imageName = time().'.'.$request->image->extension();  
+                    $request->image->move(public_path('assets/images/users'), $imageName);
+                    Storage::delete("assets/images/users/$user->image");
+                    
+                    $payload = [
+                        'name' => $request->name,
+                        'email' => $request->email,
+                        'phone' =>$request->phone,
+                        // 'details' =>$request->details,
+                        // 'order_num' => $request->order_num,
+                        'image' => $imageName,
+                    ];
+
+                    }else{
+                        $payload = [
+                            'name' => $request->name,
+                            'email' => $request->email,
+                            'phone' =>$request->phone,
+                            // 'order_num' => $request->order_num,
+                            // 'details' =>$request->details,
+                            
+                        ];
+                    }
+
+               
+                // update password if user input a new password
+                if (isset($request->password) && $request->password) {
+                    $payload['password'] = $request->password;
+                }
+
+                $user->update($payload);
+                // sync user role
+                // $user->syncRoles($request->role);
+
+                return redirect()->back()->with('success', 'User information updated succesfully!');
+            }
+
+            return redirect()->back()->with('error', 'Failed to update user! Try again.');
+        } catch (\Exception $e) {
+            $bug = $e->getMessage();
+
+            return redirect()->back()->with('error', $bug);
+        }
         
     }
     /**

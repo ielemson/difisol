@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Gallery;
+use App\Models\News;
+use App\Models\NewsCategory;
+use App\Models\Service;
+use App\Models\Slider;
 class AhikmahController extends Controller
 {
     /**
@@ -14,7 +18,18 @@ class AhikmahController extends Controller
      */
     public function index()
     {
-    return "alhikmah";
+        $category = NewsCategory::where('name','alhikmah')->first();
+        
+        $news = News::where('status',1)->where('category_id',$category->id)->orderBy('id', 'DESC')->paginate(6);
+        // dd($news);
+        $NewsFooter = News::where('status',1)->orderBy('id', 'DESC')->paginate(3);
+        $services = Service::where('status',1)->get();
+        // $features = Features::all();
+        $sliders = Slider::where('status',1)->orderBy('id','ASC')->get();
+        $galleries = Gallery::where('status',1)->get();
+        // dd($sliders);
+        
+        return view('frontend.alhikmah.master', compact('news','sliders','NewsFooter','services','galleries'));
     }
 
     /**
@@ -22,64 +37,33 @@ class AhikmahController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function news()
     {
-        //
+        // ALHIKMAH:::::
+        $category_alhikmah = NewsCategory::where('status',1)->where('name','alhikmah')->first();
+        $alhikmah_news = News::where('category_id',$category_alhikmah->id)->where('status',1)->where('type',"news")->get();
+        // ALHIKMAH:::::
+        
+        $NewsFooter = News::where('status',1)->orderBy('id', 'DESC')->paginate(3);
+        $services = Service::where('status',1)->get();
+        return view('frontend.alhikmah.news',compact('services','NewsFooter','services','alhikmah_news'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+    public function activities(){
+        $category_id = NewsCategory::where('name','alhikmah')->first();
+        $activities = News::where('status',1)->where('category_id',$category_id->id)->where('type','activity')->orderBy('id', 'DESC')->paginate(10);
+        $services = Service::where('status',1)->get();
+        $NewsFooter = News::where('status',1)->orderBy('id', 'DESC')->paginate(3);
+        return view("frontend.alhikmah.activities",compact('activities','services','NewsFooter'));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        public function gallery(){
+            $NewsFooter = News::where('status',1)->where('type','news')->orderBy('id', 'DESC')->paginate(3);
+            $services = Service::where('status',1)->get();
+            $galleries = Gallery::where('status',1)->where("partner","alhikmah")->get();
+            return view('frontend.alhikmah.gallery',compact('NewsFooter','services','galleries'));
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.main') 
+@extends('admin.layout')
 @section('title', $user->name)
 @section('content')
     <!-- push external head elements to head -->
@@ -40,7 +40,7 @@
         </div>
         <div class="row">
             <!-- start message area-->
-            @include('include.message')
+            @include("admin.include.message")
             <!-- end message area-->
             <div class="col-md-12">
                 <div class="card">
@@ -103,26 +103,7 @@
                                         </div>
                                     </div>
                                     
-                                    <div class="form-group">
-                                        <label>{{ __('Sequence')}}</label>
-                                        <select name="order_num" id="" class="form-control select2">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">11</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                        </select>
-                                    </div>
+                                   
                                 
                                 </div>
                                 <div class="col-md-6">
@@ -144,16 +125,8 @@
                                         <input type="hidden" id="token" name="token" value="{{ csrf_token() }}">
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="portfolio">{{ __('Portfolio')}}<span class="text-red">*</span></label>
-                                        <input id="portfolio" type="text" class="form-control" name="portfolio" placeholder="User portfolio" value="{{ clean($user->portfolio, 'titles')}}" required>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="details">{{ __('Details')}}<span class="text-red">*</span></label>
-                                        <textarea class="form-control html-editor" rows="10" name="details" required>{{$user->details}}</textarea>
-                                        <div class="help-block with-errors"></div>
-                                    </div>
+                                
+                                  
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">

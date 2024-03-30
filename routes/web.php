@@ -16,25 +16,45 @@ use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\FunnabHomeController;
 use App\Http\Controllers\Frontend\AhikmahController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\Backend\MediaController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about.us');
 Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contact.us');
+Route::post('/contact', [HomeController::class, 'contactUsForm'])->name('contact.form');
+Route::get('/reload-captcha', [HomeController::class, 'reloadCaptcha']);
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::get('register', [RegisterController::class, 'showRegisterForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
-Route::get('/clear-cache', [HomeController::class, 'clearCache']);
+Route::get('/clear-cache', [HomeController::class, 'clearWebsiteCache']);
 Route::get('/news/{id}', [HomeController::class, 'single_news'])->name('front.single.news');
+Route::get('/gallery', [HomeController::class, 'our_gallery'])->name('front.gallery');
+Route::get('/media', [HomeController::class, 'media'])->name('front.media');
+Route::get('/media/{id}', [HomeController::class, 'media_details'])->name('front.media.details');
+Route::get('/activities', [HomeController::class, 'activities'])->name('front.activities');
+Route::get('/activity/{slug}', [HomeController::class, 'activity'])->name('front.activity');
+
+// FUNNAB ROUTE STARTS HERE ::::::::::::::::::
+Route::group(['prefix' => 'funnab'], function () {
+	Route::get('/', [FunnabHomeController::class, 'index']);
+	Route::get('/news', [FunnabHomeController::class, 'news'])->name('funnab.news');
+	Route::get('/gallery', [FunnabHomeController::class, 'gallery'])->name('funnab.gallery');
+	Route::get('/news/{id}', [FunnabHomeController::class, 'single_news'])->name('funnb.single.news');
+});
+// FUNNAB ROUTE ENDS HERE ::::::::::::::::::::
 
 
 // FUNNAB ROUTE STARTS HERE ::::::::::::::::::
-
-Route::group(['prefix' => 'funnab'], function () {
-	Route::get('/', [FunnabHomeController::class, 'index']);
-	Route::get('/news/{id}', [FunnabHomeController::class, 'single_news'])->name('funnb.single.news');
+Route::group(['prefix' => 'al-hikmah'], function () {
+	Route::get('/', [AhikmahController::class, 'index']);
+	Route::get('/news', [AhikmahController::class, 'news'])->name('alhikmah.news');
+	Route::get('/gallery', [AhikmahController::class, 'gallery'])->name('alhikmah.gallery');
+	Route::get('/news/{id}', [AhikmahController::class, 'single_news'])->name('alhikmah.single.news');
+	Route::get('/activities', [AhikmahController::class, 'activities'])->name('alhikmah.activities');
 });
 // FUNNAB ROUTE ENDS HERE ::::::::::::::::::
 
@@ -44,7 +64,7 @@ Route::get('/uaes', [HomeController::class, 'index']);
 
 // AL-HIKMAH ROUTE STARTS HERE ::::::::::::::::::::::::::
 
-Route::get('/al-hikmah', [AhikmahController::class,'index']);
+Route::get('/al-hikmah', [AhikmahController::class, 'index']);
 // AL-HIKMAH ROUTE STARTS HERE ::::::::::::::::::::::::::
 
 
@@ -56,14 +76,64 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// logout route
 	Route::get('/logout', [LoginController::class, 'logout']);
-	
+
 	// dashboard route  
-	Route::get('/dashboard', function () {
-		return view('admin.index');
-	})->name('dashboard');
 
 
-    // Edit Profile
+	Route::group(['prefix' => 'dashboard'], function () {
+		Route::get('/', function () {
+			return view('admin.index');
+		})->name('dashboard');
+
+		Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+		Route::get('gallery/create', [GalleryController::class, 'create'])->name('gallery.create');
+		Route::post('gallery/store', [GalleryController::class, 'store'])->name('gallery.store');
+
+		// Media Route
+		Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+		Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
+		Route::post('/media/store', [MediaController::class, 'store'])->name('media.store');
+		Route::get('/media/edit/{id}', [MediaController::class, 'edit'])->name('media.edit');
+		Route::post('/media/update/{id}', [MediaController::class, 'update'])->name('media.update');
+
+		Route::group(['middleware' => 'can:manage_funnab'], function () {
+			// Gallery news route for funnab
+			Route::get('funnab/news/create', [NewsController::class, 'funnab_news_create'])->name('funnab.news.create');
+			Route::get('funnab/news/list', [NewsController::class, 'funnab_news_list'])->name('funnab.news.list');
+			Route::get('funnab/news/list', [NewsController::class, 'funnab_news_list'])->name('funnab.news.list');
+			Route::get('funnab/news/update/{id}', [NewsController::class, 'funnab_edit_news'])->name('funnab.news.edit');
+
+			// MANAGE FUNNAB GALLERY
+			Route::get('funnab/gallery', [GalleryController::class, 'funnab_index'])->name('funnab.gallery.index');
+			Route::get('funnab/gallery/create', [GalleryController::class, 'funnab_create'])->name('funnab.gallery.create');
+			Route::post('funnab/gallery/store', [GalleryController::class, 'funnab_store'])->name('funnab.gallery.store');
+			Route::get('funnab/gallery/edit/{id}', [GalleryController::class, 'funnab_edit'])->name('funnab.gallery.edit');
+		});
+
+
+		Route::group(['middleware' => 'can:manage_alhikmah'], function () {
+			// Gallery news route for funnab
+			Route::get('alhikmah/news/create', [NewsController::class, 'alhikmah_news_create'])->name('alhikmah.news.create');
+			Route::get('alhikmah/news/list', [NewsController::class, 'alhikmah_news_list'])->name('alhikmah.news.list');
+			Route::get('alhikmah/news/list', [NewsController::class, 'alhikmah_news_list'])->name('alhikmah.news.list');
+			Route::get('alhikmah/news/update/{id}', [NewsController::class, 'alhikmah_edit_news'])->name('alhikmah.news.edit');
+
+			// MANAGE FUNNAB GALLERY
+			Route::get('alhikmah/gallery', [GalleryController::class, 'alhikmah_index'])->name('alhikmah.gallery.index');
+			Route::get('alhikmah/gallery/create', [GalleryController::class, 'alhikmah_create'])->name('alhikmah.gallery.create');
+			Route::post('alhikmah/gallery/store', [GalleryController::class, 'alhikmah_store'])->name('alhikmah.gallery.store');
+			Route::get('alhikmah/gallery/edit/{id}', [GalleryController::class, 'alhikmah_edit'])->name('alhikmah.gallery.edit');
+		});
+	});
+
+	// Gallery Route:::::
+	Route::get('gallery/edit/{id}', [GalleryController::class, 'edit'])->name('gallery.edit');
+	Route::post('gallery/update/{id}', [GalleryController::class, 'update'])->name('gallery.update');
+	// Gallery Route:::::
+
+	// Media Route
+
+	// Edit Profile
 	Route::post('account/update', [UserController::class, 'profile_update'])->name('account.update');
 	// Service Route
 	Route::get('/partner/create', [ServiceController::class, 'create']);
@@ -115,7 +185,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::prefix('setting')->group(function () {
 		// Route::get('/file-manager/index', 			 [App\Http\Controllers\Admin\FileManagerController::class, 'index'])->name('filemanager.index');
 		// Route::get('/website-setting/edit', 		 [App\Http\Controllers\Admin\SettingController::class, 'edit'])->name('website-setting.edit');
-    	// Route::post('/website-setting/update/{id}',  [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('website-setting.update');
+		// Route::post('/website-setting/update/{id}',  [App\Http\Controllers\Admin\SettingController::class, 'update'])->name('website-setting.update');
 		Route::get('/website-setting/edit', [SettingController::class, 'edit'])->name('website-setting.edit');
 		Route::post('/website-setting/update/{id}', [SettingController::class, 'update'])->name('website-setting.update');
 	});
@@ -231,7 +301,7 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.navbar');
 	});
 	Route::get('/profile', function () {
-		return view('pages.profile');
+		return view("admin.main.profile");
 	});
 	Route::get('/project', function () {
 		return view('pages.project');
@@ -331,5 +401,4 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/suppliers', function () {
 		return view('inventory.people.suppliers');
 	});
-
 });

@@ -7,6 +7,7 @@
  @include('admin.funnab.dashboard')
 @endhasanyrole
 
+
 @hasanyrole('alhikmah')
  @include('admin.alhikmah.dasboard')
 @endhasanyrole

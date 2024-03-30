@@ -163,7 +163,7 @@
             <div class="col-xl-12 col-md-6">
                 <div class="card table-card">
                     <div class="card-header">
-                        <h3>{{ __('Registered Customers')}}</h3>
+                        <h3>{{ __('Registered Users')}}</h3>
                         <div class="card-header-right">
                             <ul class="list-unstyled card-option">
                                 <li><i class="ik ik-chevron-left action-toggle"></i></li>

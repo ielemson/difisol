@@ -1,54 +1,9 @@
 @extends('admin.layout')
 
-
 @section('content')
 <div class="container-fluid">
     <div class="row">
         <!-- page statustic chart start -->
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-red text-white">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h4 class="mb-0">
-                        @php
-                        $products = App\Models\Product::all();
-                        // dd($orders);
-                        @endphp
-                        {{count($products)}}
-                            </h4>
-                            <p class="mb-0">{{ __('UAES NEWS')}}</p>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="fas fa-cube f-30"></i>
-                        </div>
-                    </div>
-                    <div id="Widget-line-chart1" class="chart-line chart-shadow"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card card-blue text-white">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h4 class="mb-0">
-                                @php
-                                $orders = App\Models\Orders::where('status','Successful')->count();
-                                // dd($orders);
-                                @endphp
-                                {{$orders}}
-                            </h4>
-                            <p class="mb-0">{{ __('FUNNAB NEWS')}}</p>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="ik ik-shopping-cart f-30"></i>
-                        </div>
-                    </div>
-                    <div id="Widget-line-chart2" class="chart-line chart-shadow" ></div>
-                </div>
-            </div>
-        </div>
         <div class="col-xl-3 col-md-6">
             <div class="card card-green text-white">
                 <div class="card-block">
@@ -70,27 +25,66 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-red text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h4 class="mb-0">
+                        @php
+                        $uaes_category = App\Models\NewsCategory::where('name','uaes')->first();
+                        $uaes_news = App\Models\News::where('category_id',$uaes_category->id)->count();
+
+                        // funnab
+                        $funnab_category = App\Models\NewsCategory::where('name','funnab')->first();
+                        $funnab_news = App\Models\News::where('category_id',$funnab_category->id)->count();
+
+
+                        // alhikmah
+                        $alhikmah_category = App\Models\NewsCategory::where('name','alhikmah')->first();
+                        $alhikmah_news = App\Models\News::where('category_id',$alhikmah_category->id)->count();
+                        @endphp
+                       {{ $uaes_news }}
+                            </h4>
+                            <p class="mb-0">{{ __('UAES POST')}}</p>
+                        </div>
+                       
+                    </div>
+                    <div id="Widget-line-chart1" class="chart-line chart-shadow"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card card-blue text-white">
+                <div class="card-block">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h4 class="mb-0">
+                              
+                                {{ $funnab_news }}
+                            </h4>
+                            <p class="mb-0">{{ __('FUNNAB POST')}}</p>
+                        </div>
+                       
+                    </div>
+                    <div id="Widget-line-chart2" class="chart-line chart-shadow" ></div>
+                </div>
+            </div>
+        </div>
+       
         <div class="col-xl-3 col-md-6">
             <div class="card card-yellow text-white">
                 <div class="card-block">
                     <div class="row align-items-center">
                         <div class="col-8">
                             <h4 class="mb-0">
-                            @php
-                            $total = 0;
-                            // $attribute_price = 0;
-                           $orders =  App\Models\Orders::where('status','Successful')->get();
-                            foreach ($orders as $key => $order) {
-                            $total += $order->price * $order->qty;
-                             }
-                             @endphp
-                             {{$total}}
+                           
+                             {{$alhikmah_news}}
                             </h4>
-                            <p class="mb-0">{{ __('ALHIKMAH NEWS')}}</p>
+                            <p class="mb-0">{{ __('ALHIKMAH POST')}}</p>
                         </div>
-                        <div class="col-4 text-right">
-                            <i class="ik f-30">₦</i>
-                        </div>
+                    
                     </div>
                     <div id="Widget-line-chart4" class="chart-line chart-shadow" ></div>
                 </div>
@@ -103,7 +97,7 @@
         <div class="col-xl-12 col-md-6">
             <div class="card table-card">
                 <div class="card-header">
-                    <h3>{{ __('Registered Customers')}}</h3>
+                    <h3>{{ __('Registered Users')}}</h3>
                     <div class="card-header-right">
                         <ul class="list-unstyled card-option">
                             <li><i class="ik ik-chevron-left action-toggle"></i></li>

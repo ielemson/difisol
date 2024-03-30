@@ -24,11 +24,12 @@
                             </li>
                         </ol>
                     </nav>
-                    <!-- start message area-->
-                    @include('admin.include.message')
-                    <!-- end message area-->
+                  
                 </div>
             </div>
+              <!-- start message area-->
+              @include('admin.include.message')
+              <!-- end message area-->
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -62,6 +63,7 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                           
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label>News Content</label><span class="text-danger">*</span>
@@ -112,9 +114,10 @@
                                                         required="">
                                                         <option value="" selected="selected">-- Select an option --
                                                         </option>
-                                                        <option value="Article">Article</option>
-                                                        <option value="Feature">Feature</option>
-                                                        <option value="News">News</option>
+                                                        <option value="article">Article</option>
+                                                        <option value="feature">Feature</option>
+                                                        <option value="news">News</option>
+                                                        <option value="activity">Activities</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -173,7 +176,7 @@
                                 <div class="col-md-4">
                                     <div class="box-footer">
                                         <button type="submit" class="btn btn-primary btn-flat">CREATE</button>
-                                        <a href="/dashboard" type="submit" class="btn btn-warning btn-flat">Cancel</a>
+                                        <a href="{{ route("news.list") }}"  class="btn btn-warning btn-flat">Cancel</a>
                                     </div>
                                 </div>
                             </div>

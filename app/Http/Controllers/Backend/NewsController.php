@@ -10,6 +10,7 @@ use Intervention\Image\Facades\Image as ResizeImage;
 // use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use PhpParser\Node\Expr\FuncCall;
 
 class NewsController extends Controller
 {
@@ -110,7 +111,7 @@ class NewsController extends Controller
             'meta_title'   => 'nullable',
             'meta_description'   => 'nullable',
             'meta_keywords'   => 'nullable',
-            'image'          => 'required|image|mimes:jpg,png,jpeg'
+            'image'          => 'required|image|mimes:jpg,png,jpeg,webp'
         ]);
 
         // if(isset($request->status)){
@@ -194,7 +195,7 @@ class NewsController extends Controller
             'meta_title'   => 'nullable',
             'meta_description'   => 'nullable',
             'meta_keywords'   => 'nullable',
-            'image'          => 'nullable|image|mimes:jpg,png,jpeg'
+            'image'          => 'nullable|image|mimes:jpg,png,jpeg,webp'
         ]);
 
         $news = News::where('id',$id)->first();
@@ -253,7 +254,8 @@ class NewsController extends Controller
 
         // $news = News::where('id',$id)->first();
        
-        return redirect()->route('news.list')->with('success','News updated successfully!');
+        return redirect()->back()->with('success','News updated successfully!');
+        // return redirect()->route('news.list')->with('success','News updated successfully!');
 
     }
     /**
@@ -307,4 +309,107 @@ class NewsController extends Controller
     {
         //
     }
+
+
+// ::::::::::::::::::::::::::::::::::::::::::FUNNAB ROUTE STARTS  HERE :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    public function funnab_news_create(){
+        $categories = NewsCategory::latest()->select('id','name')->where('status',1)->get();
+        return view('admin.funnab.news.create',compact("categories"));
+    }
+
+    public function funnab_news_list(){
+        // $news = News::where([
+        //     ['title', '!=', Null],
+        //     [function ($query) use ($request) {
+        //         if (($s = $request->s)) {
+        //             $query->where('category_id',$s)
+        //                 ->orderBy('id', 'DESC')->get();
+        //         }
+        //     }]
+        // ])->orderBy('id', 'DESC')->paginate(18);
+
+
+        // $shareComponent = \Share::page(
+        //     'https://fmapmedia.com/',
+        //     'Click here to share',
+        // )
+        // ->facebook()
+        // ->twitter()
+        // ->instagram();
+        $category_funnab = NewsCategory::where('status',1)->where('name','funnab')->first();
+        $news = News::where('category_id',$category_funnab->id)->paginate(12);
+        
+        $shareButtons = \Share::page(
+            'https://www.positronx.io/create-autocomplete-search-in-laravel-with-typeahead-js/',
+            'Your share text comes here',
+        )
+        ->facebook()
+        ->twitter()
+        // ->linkedin()
+        // ->telegram()
+        ->whatsapp();       
+        // ->reddit();
+        $categories = NewsCategory::all();
+        return view('admin.funnab.news.index',compact('news','shareButtons','categories'));
+        // return view("admin.funnab.news.index");
+    }
+
+    public function funnab_edit_news($id){
+        $news = News::where('id',$id)->first();
+        $categories = NewsCategory::latest()->select('id','name')->where('status',1)->get();
+        return view("admin.funnab.news.edit",compact('news','categories'));
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::FUNNAB ROUTE ENDS  HERE ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+    // ::::::::::::::::::::::::::::::::::::::::::ALHIKMAH ROUTE STARTS  HERE :::::::::::::::::::::::::::::::::::::::::::::::::::::::
+      public function alhikmah_news_create(){
+        $categories = NewsCategory::latest()->select('id','name')->where('status',1)->get();
+        return view('admin.alhikmah.news.create',compact("categories"));
+    }
+
+    public function alhikmah_news_list(){
+        // $news = News::where([
+        //     ['title', '!=', Null],
+        //     [function ($query) use ($request) {
+        //         if (($s = $request->s)) {
+        //             $query->where('category_id',$s)
+        //                 ->orderBy('id', 'DESC')->get();
+        //         }
+        //     }]
+        // ])->orderBy('id', 'DESC')->paginate(18);
+
+
+        // $shareComponent = \Share::page(
+        //     'https://fmapmedia.com/',
+        //     'Click here to share',
+        // )
+        // ->facebook()
+        // ->twitter()
+        // ->instagram();
+        $category_alhikmah = NewsCategory::where('status',1)->where('name','alhikmah')->first();
+        $news = News::where('category_id',$category_alhikmah->id)->paginate(12);
+        
+        $shareButtons = \Share::page(
+            'https://www.positronx.io/create-autocomplete-search-in-laravel-with-typeahead-js/',
+            'Your share text comes here',
+        )
+        ->facebook()
+        ->twitter()
+        // ->linkedin()
+        // ->telegram()
+        ->whatsapp();       
+        // ->reddit();
+        $categories = NewsCategory::all();
+        return view('admin.alhikmah.news.index',compact('news','shareButtons','categories'));
+        // return view("admin.funnab.news.index");
+    }
+
+    public function alhikmah_edit_news($id){
+        $news = News::where('id',$id)->first();
+        $categories = NewsCategory::latest()->select('id','name')->where('status',1)->get();
+        return view("admin.alhikmah.news.edit",compact('news','categories'));
+    }
+    // ::::::::::::::::::::::::::::::::::::::::::ALHIKMAH ROUTE ENDS  HERE :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }

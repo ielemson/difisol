@@ -1,10 +1,13 @@
+@php
+    $setting = \App\Models\Setting::find(1);
+@endphp
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="description" content="">
 <meta name="keywords" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}" />
-<link rel="icon" href="{{ asset('favicon.png')}}" />
+<link rel="icon" href="{{asset('assets/images/settings')}}/{{$setting->website_logo}}" />
 <style>
     
 </style>

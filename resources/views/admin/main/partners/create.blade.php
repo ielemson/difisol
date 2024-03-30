@@ -91,6 +91,16 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{ __('Slug')}}</label>
+                                        {{-- <input type="file" name="image" class="file-upload-default" required> --}}
+                                        <div class="form-group">
+                                            <input type="tet" class="form-control" name="slug" placeholder="slug" required>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
                                 
                                 <div class="col-sm-12 col-lg-12 col-md-12">
 

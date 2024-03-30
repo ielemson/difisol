@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" >
 <head>
-	<title>@yield('title','') | UAES EU PROJECT</title>
+	<title>@yield('title','Dashboard') | UAES EU PROJECT</title>
 	<!-- initiate head with meta tags, css and script -->
 	@include('admin.include.head')
 
@@ -22,7 +22,6 @@
 	    	<!-- initiate chat section-->
 	    	{{-- @include('include.chat') --}}
 
-
 	    	<!-- initiate footer section-->
 	    	@include('admin.include.footer')
 
@@ -33,6 +32,11 @@
 	@include('admin.include.modalmenu')
 
 	<!-- initiate scripts-->
-	@include('admin.include.script')	
+	<script src="{{ asset('all.js') }}"></script>
+<!-- Stack array for including inline js or scripts -->
+@stack('script')
+
+<script src="{{ asset('dist/js/theme.js') }}"></script>
+{{-- <script src="{{ asset('js/chat.js') }}"></script> --}}
 </body>
 </html>

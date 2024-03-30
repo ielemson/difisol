@@ -1,6 +1,15 @@
  @if (count($services) > 0)
    <!--Brand One Start-->
- <section class="brand-two">
+   <div class="section-title text-center">
+       
+    <h2 class="section-title__title" style="font-size: 2.5rem">
+     Meet our partner Institutions
+    </h2>
+     <div class="section-title__icon">
+         <img src="eup/images/icon/section-title-icon-1.png" alt="">
+     </div>
+ </div>
+ <section class="brand-one">
     <div class="brand-one__inner">
         <div class="container">
             <div class="row">
@@ -40,7 +49,6 @@
                     </div>
                      @endforeach
                         <!--Brand One Single-->
-                        
                     </div>
                 </div>
             </div>

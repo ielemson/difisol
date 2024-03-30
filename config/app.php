@@ -235,6 +235,7 @@ return [
         'Rave' => KingFlamez\Rave\Facades\Rave::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
+        'StringHelper'=> App\Helpers\StringHelper::class,
 
     ],
 

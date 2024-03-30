@@ -28,9 +28,10 @@
                                 <h3 class="footer-widget__title">Explore</h3>
                             </div>
                             <ul class="footer-widget__Explore-list list-unstyled">
-                                <li><a href="">About</a></li>
-                                <li><a href="">Contact Us</a></li>
-                                <li><a href="">News</a></li>
+                                <li><a href="{{route('about.us')}}">About</a></li>
+                                <li><a href="{{route('contact.us')}}">Contact Us</a></li>
+                                <li><a href="{{route('all.news')}}">News</a></li>
+                                <li><a href="{{ route("front.media") }}">Our Media</a></li>
                             </ul>
                         </div>
                     </div>
@@ -50,8 +51,9 @@
                                         <p class="footer-widget__news-date">
                                             {{ Carbon\Carbon::parse($news->created_at)->isoFormat('MMM DD YY') }}
                                         </p>
-                                        <h5 class="footer-widget__news-sub-title"><a href="#">
-                                        {{$news->title}}
+                                        <h5 class="footer-widget__news-sub-title"><a href="{{route('front.single.news',$news->slug)}}">
+                                        {{-- {{}} --}}
+                                        {{ Str::limit($news->title, 20) }}
                                         </a></h5>
                                     </div>
                                 </li>
@@ -133,3 +135,4 @@
     </div>
 </footer>
 <!--Site Footer End-->
+@include('frontend.includes.mobileheader')

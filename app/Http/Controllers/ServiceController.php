@@ -44,6 +44,7 @@ class ServiceController extends Controller
                 'header' => $request->header,
                 'content' => $request->content,
                 'status' => $request->status,
+                'slug' => $request->slug,
                 'image' => $imageName,
                ]);
 
@@ -106,6 +107,7 @@ class ServiceController extends Controller
             $service->header = $request->header;
             $service->content = $request->content;
             $service->status = $request->status;
+            $service->slug = $request->slug;
             $service->image = $imageName;
             $service->save();
 
@@ -113,6 +115,7 @@ class ServiceController extends Controller
             
             $service->header = $request->header;
             $service->content = $request->content;
+            $service->slug = $request->slug;
             $service->status = $request->status;
             // $service->image = $imageName;
             $service->save();

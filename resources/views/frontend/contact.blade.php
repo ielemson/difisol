@@ -78,41 +78,88 @@
             <div class="section-title text-center">
                 <span class="section-title__tagline">Write a Message</span>
                 <h2 class="section-title__title">Fill and submit form </h2>
-                
+              @include('frontend.includes.message')
             </div>
             <div class="contact-two__form-box">
-                <form action="" class="contact-two__form contact-form-validated"
-                    novalidate="novalidate">
+                <form action="{{route('contact.form')}}" method="POST" class="contact-two__form">
+                    @csrf
                     <div class="row">
                         <div class="col-xl-6">
                             <div class="contact-form__input-box">
-                                <input type="text" placeholder="Your Name" name="name">
+                                <input type="text" placeholder="Your Name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" required>
+                                @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-xl-6">
                             <div class="contact-form__input-box">
-                                <input type="email" placeholder="Email Address" name="email">
+                                <input type="email" placeholder="Email Address" name="email" class="form-control @error('email') is-invalid @enderror" required value="{{old('email')}}">
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-xl-6">
                             <div class="contact-form__input-box">
-                                <input type="text" placeholder="Phone" name="Phone Number">
+                                <input type="text" placeholder="Phone" name="phone" class="form-control @error('phone') is-invalid @enderror" value="{{old('phone')}}">
+                                @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-xl-6">
                             <div class="contact-form__input-box">
-                                <input type="text" placeholder="Subject" name="Subject">
+                                <input type="text" placeholder="Subject" name="subject" class="form-control @error('subject') is-invalid @enderror" value="{{old('subject')}}">
+                                @error('subject')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="contact-form__input-box">
+                                <div class="captcha">
+                                    <span>{!! captcha_img() !!}</span>
+                                    <button type="button" class="btn btn-danger" class="reload" id="reload">
+                                        &#x21bb;
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="contact-form__input-box">
+                                <input id="captcha" type="text" class="form-control @error('captcha') is-invalid @enderror"placeholder="Enter Captcha" name="captcha" required>
+                                @error('captcha')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="contact-form__input-box text-message-box">
-                                <textarea name="message" placeholder="Write a Comment"></textarea>
+                                <textarea name="message" placeholder="Write a Comment" class="form-control @error('message') is-invalid @enderror">
+                                {{old('message')}}
+                                </textarea>
+                                @error('message')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                             <div class="contact-form__btn-box">
-                                <button type="submit" class="thm-btn contact-two__btn">Send a Message<i
-                                        class="icon-right-arrow"></i> </button>
+                                <button type="submit" class="thm-btn contact-two__btn">Send a Message
+                                    <i class="icon-right-arrow"></i> </button>
                             </div>
                         </div>
                     </div>

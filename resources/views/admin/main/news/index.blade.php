@@ -65,13 +65,14 @@
 
                     </div>
                 </div>
-                <div class="separator mb-20"></div>
+                {{-- <div class="separator mb-20"></div> --}}
 
-                <div class="row layout-wrap" id="layout-wrap">
-
-                    @if (count($news) > 0)
+                <div class="layout-wrap">
+                <div class="row">
+                    @if (count($news) > 0)  
                         @foreach ($news as $newslist)
-                            <div class="col-xl-4 col-lg-4 col-12 col-sm-6 mb-4 list-item list-item-grid">
+                      
+                             <div class="col-xl-4 col-lg-4 col-12 col-sm-6 mb-4 list-item list-item-grid">
                                 <div class="card d-flex flex-row mb-3">
                                     <a class="d-flex card-img newsViewTab" data-id="{{ $newslist->id }}" href="#!">
                                         <img src="{{ asset('assets/images/news') }}/{{ $newslist->image }}"
@@ -128,11 +129,13 @@
                                     </div>
                                 </div>
                             </div>
+                        
+                           
                         @endforeach
                     @endif
                     {{ $news->links() }}
                 </div>
-
+</div>
             </div>
         </div>
     </div>
@@ -171,7 +174,7 @@
     </div>
 
     <!-- push external js -->
-    @push('scripts')
+    @push('script')
         <script src="{{ asset('plugins/sweetalert/dist/sweetalert.min.js') }}"></script>
         <script src="{{ asset('plugins/summernote/dist/summernote-bs4.min.js') }}"></script>
         <script src="{{ asset('js/layouts.js') }}"></script>
@@ -181,7 +184,7 @@
 
                     var dataId = $(this).attr("data-id");
                     var type = "GET";
-                    var ajaxurl = '/news/show/' + dataId;
+                    var ajaxurl = '/admin/news/show/' + dataId;
                     $.ajax({
                         type: "GET",
                         url: ajaxurl,
@@ -216,7 +219,7 @@
                                 btnClass: 'btn-red',
                                 action: function() {
                                     var type = "GET";
-                                    var ajaxurl = '/news/delete/' + dataId;
+                                    var ajaxurl = '/admin/news/delete/' + dataId;
                                     $.ajax({
                                         type: type,
                                         url: ajaxurl,

@@ -61,8 +61,8 @@ class SettingController extends Controller
 		// }
 
          $setting = Setting::find($id);
-         $website_logo = '';
-         $website_favicon='';
+        //  $website_logo = '';
+        //  $website_favicon='';
         if ($request->hasFile('website_logo') && empty($request->website_favicon)) {
             // $imageName = 'news-'.time().uniqid().'.'.$request->image->getClientOriginalExtension();
             // $request->image->move(public_path('assets/images/news'), $imageName);
@@ -141,8 +141,8 @@ class SettingController extends Controller
             $setting->linkedin =  $request->linkedin;
             $setting->vision =  $request->vision;
             $setting->mission =  $request->mission;
-            $setting->website_favicon =  $website_favicon;
-            $setting->website_logo =  $website_logo;
+            // $setting->website_favicon =  $website_favicon;
+            // $setting->website_logo =  $website_logo;
             $setting->about =  $request->about;
             $setting->about_title =  $request->about_title;
             $setting->meta_tag =  $request->meta_tag;
